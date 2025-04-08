@@ -27,8 +27,6 @@ public class Processo {
     private String valorAcao;
 //            "normalizado_valor_acao": 36000.0,
     private Double normalizadoValorAcao;
-//            "outros_numeros": null,
-    private String outrosNumeros;
 //            "autor": null,
     private String autor;
 //            "advogado": null,
@@ -39,24 +37,16 @@ public class Processo {
     private String requerente;
 //            "reqdo": "Edgar Gualberto Quispe Flores",
     private String requerido;
-//            "fiadterc": null,
-    private String fiadterc;
 //            "indiciado": null,
     private String indiciado;
-//            "dados_da_delegacia": [],
-    private DadosDelegacia dadosDaDelegacia;
 //            "ultimas_movimentacoes": [],
-    private UltimasMovimentacoes ultimasMovimentacoes;
-//            "peticoes_diversas": [],
-    private PeticoesDiversas peticoesDiversas;
-//            "incidentes": [],
-    private Incidentes incidentes;
-//            "apensos": [],
-    private Apensos apensos;
-//            "audiencias": [],
-    private Audiencias audiencias;
-//            "historico_classes": []
-    private HistoricoClasses historicoClasses;
+//    private UltimasMovimentacoes ultimasMovimentacoes;
+////            "peticoes_diversas": [],
+//    private PeticoesDiversas peticoesDiversas;
+////            "apensos": [],
+//    private Apensos apensos;
+////            "audiencias": [],
+//    private Audiencias audiencias;
 
     public String getNumeroProcesso() {
         return numeroProcesso;
@@ -154,14 +144,6 @@ public class Processo {
         this.normalizadoValorAcao = normalizadoValorAcao;
     }
 
-    public String getOutrosNumeros() {
-        return outrosNumeros;
-    }
-
-    public void setOutrosNumeros(String outrosNumeros) {
-        this.outrosNumeros = outrosNumeros;
-    }
-
     public String getAutor() {
         return autor;
     }
@@ -202,75 +184,11 @@ public class Processo {
         this.requerido = requerido;
     }
 
-    public String getFiadterc() {
-        return fiadterc;
-    }
-
-    public void setFiadterc(String fiadterc) {
-        this.fiadterc = fiadterc;
-    }
-
     public String getIndiciado() {
         return indiciado;
     }
 
     public void setIndiciado(String indiciado) {
         this.indiciado = indiciado;
-    }
-
-    public DadosDelegacia getDadosDaDelegacia() {
-        return dadosDaDelegacia;
-    }
-
-    public void setDadosDaDelegacia(DadosDelegacia dadosDaDelegacia) {
-        this.dadosDaDelegacia = dadosDaDelegacia;
-    }
-
-    public UltimasMovimentacoes getUltimasMovimentacoes() {
-        return ultimasMovimentacoes;
-    }
-
-    public void setUltimasMovimentacoes(UltimasMovimentacoes ultimasMovimentacoes) {
-        this.ultimasMovimentacoes = ultimasMovimentacoes;
-    }
-
-    public PeticoesDiversas getPeticoesDiversas() {
-        return peticoesDiversas;
-    }
-
-    public void setPeticoesDiversas(PeticoesDiversas peticoesDiversas) {
-        this.peticoesDiversas = peticoesDiversas;
-    }
-
-    public Incidentes getIncidentes() {
-        return incidentes;
-    }
-
-    public void setIncidentes(Incidentes incidentes) {
-        this.incidentes = incidentes;
-    }
-
-    public Apensos getApensos() {
-        return apensos;
-    }
-
-    public void setApensos(Apensos apensos) {
-        this.apensos = apensos;
-    }
-
-    public Audiencias getAudiencias() {
-        return audiencias;
-    }
-
-    public void setAudiencias(Audiencias audiencias) {
-        this.audiencias = audiencias;
-    }
-
-    public HistoricoClasses getHistoricoClasses() {
-        return historicoClasses;
-    }
-
-    public void setHistoricoClasses(HistoricoClasses historicoClasses) {
-        this.historicoClasses = historicoClasses;
     }
 }

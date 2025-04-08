@@ -4,7 +4,7 @@ public class ParametrosAPI {
 
     private static String TOKEN = "hdVPC0gzW8u6f9cb6cvCC75d-G6Q1brCLjy_NWJG";
     private static String TIMEOUT = "600";
-    private static String PARAMETRO_PROCESSO = "processo";
+    private static String PARAMETRO_PROCESSO = "";
     private static String PARAMETRO_PARTE = "";
     private static String PARAMETRO_CPF = "";
     private static String PARAMETRO_CNPJ = "";
@@ -14,7 +14,7 @@ public class ParametrosAPI {
     private static String PARAMETRO_DOCUMENTO_DELEGACIA = "";
     private static String PARAMETRO_CDA = "";
     private static String PARAMETRO_PAGINA = "";
-    private static String PARAMETRO_OAB = "509556";
+    private static String PARAMETRO_OAB = "";
 
     public static String getTOKEN() {
         return TOKEN;
