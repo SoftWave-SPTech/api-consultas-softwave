@@ -1,11 +1,16 @@
 package school.sptech;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import school.sptech.Jobs.ParametrosAPI;
+import school.sptech.Jobs.ProcessoGrau1API;
 
-@SpringBootApplication
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
+    public static void main(String[] args) throws IOException {
+        System.out.println("Hello, World!");
+        ParametrosAPI.setTOKEN("hdVPC0gzW8u6f9cb6cvCC75d-G6Q1brCLjy_NWJG");
+        ParametrosAPI.setParametroOab("509556");
+        ProcessoGrau1API.getApiParams();
+
     }
 }
