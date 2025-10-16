@@ -1,6 +1,5 @@
 package school.sptech.Service;
 
-import org.apache.hc.core5.http.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import school.sptech.Config.ProcessoGrau1API;
@@ -22,27 +21,17 @@ public class ProcessoService {
         this.restTemplate = restTemplate;
     }
 
-    public List<ProcessoResponse> consultarPorOab(String oab) throws IOException, ParseException {
+    public List<ProcessoResponse> consultarPorOab(String oab) throws IOException {
         school.sptech.Config.ParametrosAPI.setParametroOab(oab);
-
         List<ProcessoResponse> processos = ProcessoGrau1API.consultarProcessos();
-
         enviarParaApiPrincipal(processos);
-
-        //publisher.publishEvent(new ProcessoEvent(this, processos));
-
         return processos;
     }
 
-    public List<ProcessoResponse> consultarPorNumeroProcesso(String numeroProcesso) throws IOException, ParseException {
+    public List<ProcessoResponse> consultarPorNumeroProcesso(String numeroProcesso) throws IOException {
         school.sptech.Config.ParametrosAPI.setParametroProcesso(numeroProcesso);
-
         List<ProcessoResponse> processos = ProcessoGrau1API.consultarProcessos();
-
         enviarParaApiPrincipal(processos);
-
-        //publisher.publishEvent(new ProcessoEvent(this, processos));
-
         return processos;
     }
 

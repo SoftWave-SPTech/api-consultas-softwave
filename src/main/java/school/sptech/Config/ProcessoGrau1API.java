@@ -1,88 +1,134 @@
 package school.sptech.Config;
 
-import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.hc.client5.http.classic.methods.HttpPost;
-import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.NameValuePair;
-import org.apache.hc.core5.http.ParseException;
-import org.apache.hc.core5.http.message.BasicNameValuePair;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import school.sptech.DTO.ProcessoResponse;
 import school.sptech.DTO.UltimasMovimentacoesResponse;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProcessoGrau1API {
 
-    public static List<ProcessoResponse> consultarProcessos() throws IOException, ParseException {
-        HttpPost httppost = new HttpPost("https://api.infosimples.com/api/v2/consultas/tribunal/tjsp/primeiro-grau");
+    public static List<ProcessoResponse> consultarProcessos() throws IOException {
+        // URL da API
+        String urlStr = "https://api.infosimples.com/api/v2/consultas/tribunal/tjsp/primeiro-grau";
+        URL url = new URL(urlStr);
 
-        // Configura os parâmetros da API
-        List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("processo", ParametrosAPI.getParametroProcesso()));
-        params.add(new BasicNameValuePair("parte", ParametrosAPI.getParametroParte()));
-        params.add(new BasicNameValuePair("cpf", ParametrosAPI.getParametroCpf()));
-        params.add(new BasicNameValuePair("cnpj", ParametrosAPI.getParametroCnpj()));
-        params.add(new BasicNameValuePair("rg", ParametrosAPI.getParametroRg()));
-        params.add(new BasicNameValuePair("advogado", ParametrosAPI.getParametroAdvogado()));
-        params.add(new BasicNameValuePair("oab", ParametrosAPI.getParametroOab()));
-        params.add(new BasicNameValuePair("carta_precatoria", ParametrosAPI.getParametroCartaPrecatoria()));
-        params.add(new BasicNameValuePair("documento_delegacia", ParametrosAPI.getParametroDocumentoDelegacia()));
-        params.add(new BasicNameValuePair("cda", ParametrosAPI.getParametroCda()));
-        params.add(new BasicNameValuePair("pagina", ParametrosAPI.getParametroPagina()));
-        params.add(new BasicNameValuePair("token", ParametrosAPI.getTOKEN()));
-        params.add(new BasicNameValuePair("timeout", ParametrosAPI.getTIMEOUT()));
-        httppost.setEntity(new UrlEncodedFormEntity(params));
+        // Configura a conexão HTTP
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 
-        return getDadosApi(httppost);
+        // Parâmetros da API
+        Map<String, String> params = new HashMap<>();
+        params.put("processo", ParametrosAPI.getParametroProcesso());
+        params.put("parte", ParametrosAPI.getParametroParte());
+        params.put("cpf", ParametrosAPI.getParametroCpf());
+        params.put("cnpj", ParametrosAPI.getParametroCnpj());
+        params.put("rg", ParametrosAPI.getParametroRg());
+        params.put("advogado", ParametrosAPI.getParametroAdvogado());
+        params.put("oab", ParametrosAPI.getParametroOab());
+        params.put("carta_precatoria", ParametrosAPI.getParametroCartaPrecatoria());
+        params.put("documento_delegacia", ParametrosAPI.getParametroDocumentoDelegacia());
+        params.put("cda", ParametrosAPI.getParametroCda());
+        params.put("pagina", ParametrosAPI.getParametroPagina());
+        params.put("token", ParametrosAPI.getTOKEN());
+        params.put("timeout", ParametrosAPI.getTIMEOUT());
+
+        // Converte os parâmetros para formato form-urlencoded
+        StringBuilder postData = new StringBuilder();
+        for (Map.Entry<String, String> param : params.entrySet()) {
+            if (postData.length() != 0) postData.append('&');
+            postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+            postData.append('=');
+            postData.append(URLEncoder.encode(param.getValue(), "UTF-8"));
+        }
+
+        // Envia os parâmetros
+        try (OutputStream os = connection.getOutputStream()) {
+            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+            os.write(postDataBytes);
+            os.flush();
+        }
+
+        // Lê a resposta
+        int status = connection.getResponseCode();
+        InputStream inputStream = (status >= 200 && status < 300)
+                ? connection.getInputStream()
+                : connection.getErrorStream();
+
+        String responseBody;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            StringBuilder responseBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                responseBuilder.append(line);
+            }
+            responseBody = responseBuilder.toString();
+        }
+
+        connection.disconnect();
+
+        // Processa o JSON da resposta
+        return parseResponse(responseBody);
     }
 
-    private static List<ProcessoResponse> getDadosApi(HttpPost httppost) throws IOException, ParseException {
+    private static List<ProcessoResponse> parseResponse(String body) throws IOException {
         List<ProcessoResponse> processosList = new ArrayList<>();
-        HttpClient httpclient = HttpClients.createDefault();
+        JSONObject response = new JSONObject(body);
 
-        try (CloseableHttpResponse httpResponse = (CloseableHttpResponse) httpclient.execute(httppost)) {
-            String body = EntityUtils.toString(httpResponse.getEntity());
-            JSONObject response = new JSONObject(body);
-
-            if (response.getInt("code") != 200) {
-                throw new RuntimeException("Erro na API: código " + response.optInt("code") + ", mensagem: " + response.optString("code_message"));
-            }
-
-            JSONArray dataArray = response.getJSONArray("data");
-            if (dataArray.isEmpty()) return processosList;
-
-            JSONArray processosJson = dataArray.getJSONObject(0).getJSONArray("processos");
-
-            for (int i = 0; i < processosJson.length(); i++) {
-                JSONObject processoJson = processosJson.getJSONObject(i);
-                ProcessoResponse processoResponse = mapProcessoResponse(processoJson);
-
-                // Mapear últimas movimentações
-                JSONArray ultimasMovimentacoesJson = processoJson.optJSONArray("ultimas_movimentacoes");
-                if (ultimasMovimentacoesJson != null) {
-                    List<UltimasMovimentacoesResponse> movimentacoesList = new ArrayList<>();
-                    for (int j = 0; j < ultimasMovimentacoesJson.length(); j++) {
-                        JSONObject movJson = ultimasMovimentacoesJson.getJSONObject(j);
-                        UltimasMovimentacoesResponse mov = new UltimasMovimentacoesResponse();
-                        mov.setData(LocalDate.parse(movJson.getString("data"))); // assumindo formato YYYY-MM-DD
-                        mov.setMovimento(movJson.getString("movimento"));
-                        movimentacoesList.add(mov);
-                    }
-                    processoResponse.setUltimasMovimentacoes(movimentacoesList);
-                }
-
-                processosList.add(processoResponse);
-            }
-
+        if (response.optInt("code") != 200) {
+            throw new IOException("Erro na API: código " + response.optInt("code") +
+                    ", mensagem: " + response.optString("code_message"));
         }
+
+        JSONArray dataArray = response.optJSONArray("data");
+        if (dataArray == null || dataArray.isEmpty()) return processosList;
+
+        JSONArray processosJson = dataArray.getJSONObject(0).optJSONArray("processos");
+        if (processosJson == null) return processosList;
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        for (int i = 0; i < processosJson.length(); i++) {
+            JSONObject processoJson = processosJson.getJSONObject(i);
+            ProcessoResponse processoResponse = mapProcessoResponse(processoJson);
+
+            JSONArray ultimasMovimentacoesJson = processoJson.optJSONArray("ultimas_movimentacoes");
+            if (ultimasMovimentacoesJson != null) {
+                List<UltimasMovimentacoesResponse> movimentacoesList = new ArrayList<>();
+                for (int j = 0; j < ultimasMovimentacoesJson.length(); j++) {
+                    JSONObject movJson = ultimasMovimentacoesJson.getJSONObject(j);
+                    UltimasMovimentacoesResponse mov = new UltimasMovimentacoesResponse();
+
+                    String dataTexto = movJson.getString("data");
+                    try {
+                        mov.setData(LocalDate.parse(dataTexto, formatter));
+                    } catch (Exception e) {
+                        // fallback para formato ISO (caso venha yyyy-MM-dd)
+                        mov.setData(LocalDate.parse(dataTexto));
+                    }
+
+                    mov.setMovimento(movJson.getString("movimento"));
+                    movimentacoesList.add(mov);
+                }
+                processoResponse.setUltimasMovimentacoes(movimentacoesList);
+            }
+
+            processosList.add(processoResponse);
+        }
+
 
         return processosList;
     }
