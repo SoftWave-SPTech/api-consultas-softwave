@@ -29,7 +29,7 @@ public class ProcessoListener {
 
         rabbitTemplate.convertAndSend(exchangeName, routingKey, processos);
 
-        System.out.println("📤 Processos enviados ao microserviço principal via RabbitMQ: "
+        System.out.println("📤Processos enviados ao microserviço principal via RabbitMQ: "
                 + processos.size());
     }
 }

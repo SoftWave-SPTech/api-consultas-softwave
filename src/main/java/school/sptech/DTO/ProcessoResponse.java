@@ -15,8 +15,8 @@ public class ProcessoResponse {
     private String area;
     private String valorAcao;
     private Double normalizadoValorAcao;
+    private String descricao;
     private String autor;
-    private String advogado;
     private String executado;
     private String requerente;
     private String requerido;
@@ -50,8 +50,8 @@ public class ProcessoResponse {
     public void setNormalizadoValorAcao(Double normalizadoValorAcao) { this.normalizadoValorAcao = normalizadoValorAcao; }
     public String getAutor() { return autor; }
     public void setAutor(String autor) { this.autor = autor; }
-    public String getAdvogado() { return advogado; }
-    public void setAdvogado(String advogado) { this.advogado = advogado; }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
     public String getExecutado() { return executado; }
     public void setExecutado(String executado) { this.executado = executado; }
     public String getRequerente() { return requerente; }

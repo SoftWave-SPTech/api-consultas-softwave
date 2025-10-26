@@ -148,7 +148,7 @@ public class ProcessoGrau1API {
         p.setValorAcao(processoJson.optString("valor_acao", "Não informado"));
         p.setNormalizadoValorAcao(processoJson.optDouble("normalizado_valor_acao", 0.0));
         p.setAutor(processoJson.optString("autor", "Não informado"));
-        p.setAdvogado(processoJson.optString("advogado", "Não informado"));
+        p.setDescricao(processoJson.optString("advogado", "Não informado"));
         p.setExecutado(processoJson.optString("executado", "Não informado"));
         p.setRequerente(processoJson.optString("reqte", "Não informado"));
         p.setRequerido(processoJson.optString("reqdo", "Não informado"));
