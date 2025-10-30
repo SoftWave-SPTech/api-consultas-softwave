@@ -135,7 +135,7 @@ public class ProcessoGrau1API {
 
     private static ProcessoResponse mapProcessoResponse(JSONObject processoJson) {
         ProcessoResponse p = new ProcessoResponse();
-        p.setNumeroProcesso(processoJson.optString("processo", ParametrosAPI.getParametroProcesso()));
+        p.setNumeroProcesso(processoJson.optString("numero_processo", ParametrosAPI.getParametroProcesso()));
         p.setClasse(processoJson.optString("classe", "Não informado"));
         p.setAssunto(processoJson.optString("assunto", "Não informado"));
         p.setForo(processoJson.optString("foro", "Não informado"));
@@ -148,7 +148,6 @@ public class ProcessoGrau1API {
         p.setValorAcao(processoJson.optString("valor_acao", "Não informado"));
         p.setNormalizadoValorAcao(processoJson.optDouble("normalizado_valor_acao", 0.0));
         p.setAutor(processoJson.optString("autor", "Não informado"));
-        p.setDescricao(processoJson.optString("advogado", "Não informado"));
         p.setExecutado(processoJson.optString("executado", "Não informado"));
         p.setRequerente(processoJson.optString("reqte", "Não informado"));
         p.setRequerido(processoJson.optString("reqdo", "Não informado"));
