@@ -40,7 +40,8 @@ public class CorsConfig implements WebMvcConfigurer {
                 "http://backend-softwave:8080",
                 "http://52.3.112.88",
                 "http://52.3.112.88:80",
-                "http://52.3.112.88:8080"
+                "http://52.3.112.88:8080",
+                "https://api.infosimples.com/"
             );
         }
 
