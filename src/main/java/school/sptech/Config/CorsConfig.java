@@ -41,6 +41,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 "http://52.3.112.88",
                 "http://52.3.112.88:80",
                 "http://52.3.112.88:8080",
+                "http://35.227.196.229",
                 "https://api.infosimples.com/"
             );
         }
