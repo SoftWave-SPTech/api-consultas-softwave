@@ -1,7 +1,7 @@
 package school.sptech.Config;
 
 public class ParametrosAPI {
-    private static String TOKEN = "OC49dhz5P96D0Er_N4VCaeg3e-YRa6Z02DX_e3MW";
+    private static String TOKEN = "uQv705cREM3_PsHNXAN7xDMgRYMUnveVSO1sSGrA";
     private static String TIMEOUT = "600";
     private static String PARAMETRO_PROCESSO = "";
     private static String PARAMETRO_PARTE = "";
