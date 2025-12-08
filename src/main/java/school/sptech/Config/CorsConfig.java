@@ -33,6 +33,7 @@ public class CorsConfig implements WebMvcConfigurer {
         } else {
             allowedOrigins = List.of(
                 "http://localhost:5173",
+                "http://localhost:5672",
                 "http://localhost:3000",
                 "http://localhost:8080",
                 "http://52.3.112.88",
